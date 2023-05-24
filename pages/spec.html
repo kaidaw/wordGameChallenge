@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+        <!-- 
+            
+            for this wordgame each page view should pick a random 5 letter word.
+            It should then show 5 boxes where the player can add each of the five characters of thier guess word
+            When all 5 characters are entered the game should assess each character
+            if the character is in the word we are trying to guess it will turn orange
+            if the character is not in the word we are guessing it will turn grey
+            if the charcater is in the word, and in the correct place it will turn green.
+            After each guess of a five letter word the game will colour the letters, and then present a new row.
+            if the word is correct the game will tell you that you won! and offer you the chance to play again.
+
+        -->    
+
+        <style>
+            body{
+                /* we can set the base font for the body*/
+                font-size:20px;
+            }
+            h1{
+                /* its always good to have a header*/
+                text-align:center;
+            }
+            .wrapper{
+                /* Give ourselves a little space */
+                margin:40px auto;
+            }
+            .wordRow{
+                /* each turn will be a new row */
+                border-top:1px solid blue;
+                background-color:lightblue;
+                padding:3px;
+                margin:0;
+                text-align:center;
+                
+            }
+            .wordLetterBox{
+                /* each row will have 5 charcter guessing boxes */
+                border:1px solid black;
+                padding:3px;
+                margin:3px;
+                background-color:white;
+                width:1.5em;
+                height:1.5em;
+                text-align:center;
+                font-size:1em;
+                font-weight:heavy;
+                text-align:center;
+                text-transform: uppercase;
+            }
+            .contains{
+                /* if the letter is found in the target word we need to make it orange */
+                background-color:orange;
+            }
+            .notContains{
+                /* if the letter is NOT found in the target word we need to make it grey */
+                background-color:grey;
+            }
+            .correct{
+                /* if the letter is found in the target word at the correct place we need to make it green */
+                background-color:lightgreen;
+            }
+        </style>
+
+        <!-- do you need to use a JS library ? if you do now would be the time to include it.. make sure you can justify using it. -->
+
+        <script>
+            window.addEventListener('DOMContentLoaded', (event) => {
+                console.log('DOM fully loaded and parsed');
+                console.log("start a new word game!");
+                wordGame.play();
+            });
+
+            var wordGame = {
+                possibleWords :["hello","world","close","codes","clear","house", "mouse","learn","error","basic","exist","exits"],
+                currentWord : "",
+                rowCount : 0,
+                play : function (){
+                    console.log( "play game has been called");
+                    // to do add the play game function 
+
+                    //first job is to select a random word and set it to the wordGame.currentWord variable...
+
+                    // then we can create a new row for our first guesses..
+                    wordGame.createRow();
+
+                },
+
+                createRow : function (){
+                    /* this function should creeate a new row and keep count of how many we have created
+                    Each row should be a div with a class of  wordRow 
+                    and should have 5 input elements as children , these are where a guess can be entered
+                    
+                    Tip : you might want to use an naming convention to keep the IDs of you input boxes unique and help you find them later
+                    (maybe id="inputbox_row_1_box_3" )
+
+                    Bonus:
+                    make the input box max-length  1
+                    make the check happen every time the user changes a value - but only check the full row if all five letters are added
+                    Make the focus move to the next box as the user types each character 
+                   
+
+                    */
+                    console.log("Create a row called");
+                },
+
+                testIsRowComplete : function( rowNumber ){
+                    /* 
+                    this function should look at the row that is nubmered 'rowNumber' and test to see if each box in that row has a non-empty value
+                    if all the boxes have been filled in by the user we can assess the rows correctness otherwise we need to keep waiting for more character values...
+                    */
+
+                    console.log("Test row complete called on row " + rowNumber);
+                },
+
+                checkRowLetters : function ( rowNumber ){
+                    /*
+                    this function should check each of the 5 characters entered in row 'rowNumber' against our wordGame.currentWord
+                    If it finds the letter in the correct place it should be coloured green
+                    if it finds the letter but in the wrong place it should be coloured orange
+                    if it does not find the letter it should be coloured GREY.
+                    Once checked, if the word has been found (every box is green) then we can call the game won function, otherwise we need to add a new row for our next guess.. 
+                    
+                    Bonus
+                    make the previous row lock (all the boxes are disabled) when im ready to add a new row
+                    Bonus 2 
+                    Remove the need ro pass the rowNumber by only ever having one active row which we test and have the previous rows added to the display in a diferent manner.
+                    (still kep a tally for the attempts)
+                    */
+
+                    console.log("Check row letters called on row " + rowNumber);
+                },
+
+                gameWon: function(){
+
+                    /* a really simple game won routine is (partly) provided, this just tells the user they won and asks if they want to play again..
+                    if they do want to play again it should reset the game (what's the quickest and most reliable way to do that?)
+                    if they don't then it does nothing..
+                    */
+                    console.log("Game won! player found the word (which was " + wordGame.currentWord + ")" );
+                    if( confirm("Well done! \nsolved in "+wordGame.rowCount+" attempts \n\nplay again?") ){
+                            //todo : user wants to play again - reset the game...
+                    }
+                }
+
+                
+
+                /*/
+                Bonus Challenges
+
+                This has a short word list -- how might we get a longer one?
+
+                Game Lost state : You dont get an infinate amount of attempts - pick a number that seems reasonable and display the Game lost state when that number of trys is reached.
+
+                This would allow you to add in a number or punctuation instead of a character - how could we prevent that?
+
+                This allows you to enter any 5 characters, for example it would allow 'eeeee'    
+                How might we add an extra game rule so that the 5 charcaters had to form a valid 5 letter word ?                 
+
+                Just 5 letters? why not 6, 10 or even 4? - can we alter the code to cope with a word of variable length?
+
+                Display the alphabet : wouldn't ot be nice to show the alphabet on screen with your previously attempted letters highlighted? 
+
+                Some people may like to do a speed run.. could we add a timer to the game and tell the player thier time to complete the game?
+
+                Could we store the top 5 fastest runs for a player and display them in a high score table? 
+
+                Could we store the fastest times for ALL players via an API - which APIs might work for that?
+
+                Dont like the styling? ok - show me your flair and make it look better. 
+
+                Dont like the game structure -- how might you do it better? - re-write the whole thing from scratch if you prefer! 
+
+                JS can do animations cant it? wouldnt it be nice if the cards rotated as the were marked  grey / orange / green ? 
+
+                is using var for the wordgame right? 
+
+                Could we have written this in TypeScript and then transpile it?
+
+                /*/
+            }
+        </script>
+
+    </head>
+    <body>
+        <h1>Find the 5 letter word &hellip;<h1>
+        <div class="wrapper" id="wrapper"></div>
+    </body>
+</html>
